@@ -22,7 +22,7 @@ public class Bin {
 
     public Bin(BinDto binDto){
         this.binId = binDto.getBinId();
-        this.binLabel = binDto.getBinLabel();
+        this.binLabel = binDto.getBinLabel().toUpperCase();
         this.binLocation = binDto.getBinLocation();
     }
 
@@ -39,7 +39,7 @@ public class Bin {
     }
 
     public void setBinLabel(String binLabel) {
-        this.binLabel = binLabel;
+        this.binLabel = binLabel.toUpperCase();
     }
 
     public BinLocation getBinLocation() {

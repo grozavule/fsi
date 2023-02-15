@@ -12,13 +12,13 @@ public class BinDto {
 
     public BinDto(Integer binId, String binLabel, BinLocation binLocation){
         this.binId = binId;
-        this.binLabel = binLabel;
+        this.binLabel = binLabel.toUpperCase();
         this.binLocation = binLocation;
     }
 
     public BinDto(Bin bin){
         this.binId = bin.getBinId();
-        this.binLabel = bin.getBinLabel();
+        this.binLabel = bin.getBinLabel().toUpperCase();
         this.binLocation = bin.getBinLocation();
     }
 
@@ -35,7 +35,7 @@ public class BinDto {
     }
 
     public void setBinLabel(String binLabel) {
-        this.binLabel = binLabel;
+        this.binLabel = binLabel.toUpperCase();
     }
 
     public BinLocation getBinLocation() {
