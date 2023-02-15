@@ -2,6 +2,7 @@ package dev.ericdrake.controllers;
 
 import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.dtos.BinLocationDto;
+import dev.ericdrake.entities.BinLocation;
 import dev.ericdrake.services.BinLocationService;
 import dev.ericdrake.services.BinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,23 @@ public class BinLocationController {
     @GetMapping("/{binLocationId}")
     public Optional<BinLocationDto> getBinLocations(@PathVariable Integer binLocationId){
         return binLocationService.getBinLocationById(binLocationId);
+    }
+
+    @PutMapping("/{binLocationId}")
+    public String updateBinLocation(@RequestBody BinLocation binLocation, @PathVariable Integer binLocationId){
+        Optional<BinLocationDto> binLocationDtoOptional = binLocationService.getBinLocationById(binLocationId);
+        if(binLocationDtoOptional.isPresent()){
+            BinLocationDto binLocationDto = binLocationDtoOptional.get();
+            binLocationDto.setLocationName(binLocation.getLocationName());
+            String response = binLocationService.updateBinLocation(binLocationDto);
+            return response;
+        }
+        return "The bin location provided could not be found";
+    }
+
+    @DeleteMapping("/{binLocationId}")
+    public String deleteBinLocation(@PathVariable Integer binLocationId){
+        binLocationService.deleteBinLocation(binLocationId);
+        return "The bin location has been successfully deleted";
     }
 }

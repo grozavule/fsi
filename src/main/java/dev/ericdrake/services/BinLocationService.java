@@ -9,8 +9,14 @@ import java.util.Optional;
 
 public interface BinLocationService {
     @Transactional
-    String addBinLocation(BinLocationDto binLocationDto);
+    public String addBinLocation(BinLocationDto binLocationDto);
 
     @Transactional
     public Optional<BinLocationDto> getBinLocationById(Integer binLocationId);
+
+    @Transactional
+    public String updateBinLocation(BinLocationDto binLocationDto);
+
+    @Transactional
+    public String deleteBinLocation(Integer binLocationId);
 }

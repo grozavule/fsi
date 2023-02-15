@@ -14,13 +14,13 @@ public class BinLocationDto {
 
     public BinLocationDto(BinLocation binLocation){
         this.binLocationId = binLocation.getBinLocationId();
-        this.locationName = binLocation.getLocationName();
+        this.locationName = binLocation.getLocationName().toUpperCase();
         this.bins = binLocation.getBins();
     }
 
     public BinLocationDto(int binLocationId, String locationName, Set<Bin> bins){
         this.binLocationId = binLocationId;
-        this.locationName = locationName;
+        this.locationName = locationName.toUpperCase();
         this.bins = bins;
     }
 
@@ -37,7 +37,7 @@ public class BinLocationDto {
     }
 
     public void setLocationName(String locationName) {
-        this.locationName = locationName;
+        this.locationName = locationName.toUpperCase();
     }
 
     public Set<Bin> getBins() {

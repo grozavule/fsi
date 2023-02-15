@@ -38,4 +38,27 @@ public class BinLocationServiceImpl implements BinLocationService {
         }
         return Optional.empty();
     }
+
+    @Override
+    @Transactional
+    public String updateBinLocation(BinLocationDto binLocationDto){
+        Optional<BinLocation> binLocationOptional = binLocationRepository.findById(binLocationDto.getBinLocationId());
+        if(binLocationOptional.isPresent()){
+            BinLocation binLocation = binLocationOptional.get();
+            binLocation.setLocationName(binLocationDto.getLocationName());
+            return "The bin location name has been changed to " + binLocation.getLocationName();
+        }
+        return "The bin location provided could not be found";
+    }
+
+    @Override
+    @Transactional
+    public String deleteBinLocation(Integer binLocationId){
+        Optional<BinLocation> binLocationOptional = binLocationRepository.findById(binLocationId);
+        if(binLocationOptional.isPresent()){
+            binLocationRepository.delete(binLocationOptional.get());
+            return "The bin location has been deleted";
+        }
+        return "The bin location provided could not be found";
+    }
 }
