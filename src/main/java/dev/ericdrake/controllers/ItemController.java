@@ -29,7 +29,7 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public Optional<ItemDto> getItems(@PathVariable Integer itemId){
+    public Optional<ItemDto> getItem(@PathVariable Integer itemId){
         return itemService.getItemById(itemId);
     }
 
