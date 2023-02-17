@@ -4,6 +4,7 @@ import dev.ericdrake.dtos.ItemDto;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -21,6 +22,14 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bin_id")
     private Bin bin;
+
+    @ManyToMany
+    @JoinTable(
+            name = "item_tags",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 
     public Item(){}
 

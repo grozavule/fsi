@@ -3,6 +3,8 @@ package dev.ericdrake.entities;
 import dev.ericdrake.dtos.TagDto;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "tags")
 public class Tag {
@@ -12,6 +14,9 @@ public class Tag {
 
     @Column(name = "tag")
     private String tag;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Item> items;
 
     public Tag(){}
 
