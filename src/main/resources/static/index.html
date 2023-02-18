@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Storage Inventory - Login</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
 </head>
 <body>
-<h1>Food Storage Inventory</h1>
+    <div class="container">
+        <nav id="side-navigation">
+            <ul id="menu">
+                <li><div class="menu-item">Items</div>
+                    <ul class="submenu" id="submenu-items">
+                        <li>View All</li>
+                        <li>Add Item</li>
+                        <li>Edit Item</li>
+                    </ul>
+                </li>
+                <li><div class="menu-item">Bins</div>
+                    <ul class="submenu" id="submenu-bins">
+                        <li>View All</li>
+                        <li>Add Bin</li>
+                        <li>Edit Bin</li>
+                        <li>Remove Bin</li>
+                    </ul>
+                </li>
+                <li><div class="menu-item">Bin Locations</div>
+                    <ul class="submenu" id="submenu-locations">
+                        <li>View All</li>
+                        <li>Edit Bin Location</li>
+                        <li>Remove Bin Location</li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <main></main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="assets/js/common.js"></script>
 </body>
 </html>

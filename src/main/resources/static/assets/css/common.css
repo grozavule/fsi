@@ -1,0 +1,90 @@
+@font-face {
+    font-family:"norwester";
+    src: url("../fonts/norwester/norwester.eot") format('embedded-opentype'),
+    url("../fonts/norwester/norwester.ttf") format("truetype"),
+    url("../fonts/norwester/norwester.woff") format("woff");
+}
+@font-face {
+    font-family:"aaargh";
+    src: url("../fonts/aaargh/aaargh.eot") format('embedded-opentype'),
+    url("../fonts/aaargh/aaargh.ttf") format("truetype"),
+    url("../fonts/aaargh/aaargh.woff") format("woff");
+}
+
+:root {
+    --header-font: "norwester";
+    --header-font-size: 50px;
+    --body-font: "aaargh";
+    --body-font-size: 20px;
+    --primary-color:#A44A3f;
+    --secondary-color:#FFF1D0;
+    --tertiary-color:#FFFFFF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin:0;
+    padding:0;
+    width:100vw;
+    height:100vh;
+    background:linear-gradient(225deg, #114B5F, #00C2D1);
+    font-family:var(--body-font);
+    font-size:var(--body-font-size);
+}
+
+.container {
+    display:flex;
+    flex-direction:column;
+}
+
+/** SIDE NAVIGATION STYLES **/
+
+#side-navigation {
+    display:inline-block;
+    min-width:250px;
+    min-height:100vh;
+    background:var(--primary-color);
+    color:var(--secondary-color);
+}
+
+#menu {
+    margin:0;
+    padding:0;
+}
+
+#menu > li {
+    padding:20px 0 20px 20px;
+    cursor:pointer;
+}
+
+#menu li {
+    list-style:none;
+}
+
+.menu-item {
+    padding:20px 20px 20px 0;
+}
+
+.submenu {
+    display:none;
+    margin-left:-20px;
+    padding:0;
+    background:rgba(0, 0, 0, .33);
+}
+
+.submenu li {
+    padding:20px 45px;
+    transition: all 1s;
+}
+
+.submenu li:hover {
+    background:var(--secondary-color);
+    color:var(--primary-color);
+}
+
+/** END OF SIDE NAVIGATION STYLES **/
+
+
