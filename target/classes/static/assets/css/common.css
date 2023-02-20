@@ -35,6 +35,11 @@ body {
     font-size:var(--body-font-size);
 }
 
+.container {
+    display:flex;
+    flex-direction:row;
+}
+
 /** SIDE NAVIGATION STYLES **/
 
 #side-navigation {
@@ -79,5 +84,7 @@ body {
     background:var(--secondary-color);
     color:var(--primary-color);
 }
+
+/** END OF SIDE NAVIGATION STYLES **/
 
 

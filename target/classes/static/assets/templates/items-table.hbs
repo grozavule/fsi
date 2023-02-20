@@ -1,0 +1,18 @@
+<table class="table table-striped">
+    <tr>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Expiration Date</th>
+        <th>Bin</th>
+        <th>Bin Location</th>
+    </tr>
+    {{#each items}}
+    <tr>
+        <td>{{description}}</td>
+        <td>{{quantity}}</td>
+        <td>{{expirationDate}}</td>
+        <td>{{bin.binLabel}}</td>
+        <td>{{bin.binLocation.locationName}}</td>
+    </tr>
+    {{/each}}
+</table>

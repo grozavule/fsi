@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <section id="side-navigation">
+        <nav id="side-navigation">
             <ul id="menu">
                 <li><div class="menu-item">Items</div>
                     <ul class="submenu" id="submenu-items">
@@ -33,8 +33,12 @@
                     </ul>
                 </li>
             </ul>
-        </section>
+        </nav>
+        <main></main>
     </div>
-<script src="assets/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+    <script src="assets/templates/items-table.js" type="module"></script>
+    <script src="assets/js/common.js"></script>
 </body>
 </html>

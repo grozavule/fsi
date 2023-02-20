@@ -1,5 +1,6 @@
 package dev.ericdrake.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.ericdrake.dtos.ItemDto;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public class Item {
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bin_id")
     private Bin bin;

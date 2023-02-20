@@ -1,5 +1,6 @@
 package dev.ericdrake.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.ericdrake.dtos.BinLocationDto;
 import jakarta.persistence.*;
 
@@ -15,6 +16,7 @@ public class BinLocation {
     @Column(unique = true, nullable = false)
     private String locationName;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "binLocation", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Bin> bins;
 

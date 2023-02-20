@@ -1,5 +1,6 @@
 package dev.ericdrake.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.ericdrake.dtos.BinDto;
 import jakarta.persistence.*;
@@ -17,10 +18,12 @@ public class Bin {
     @Column(unique = true)
     private String binLabel;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bin_location_id")
     private BinLocation binLocation;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "bin", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Item> items;
 

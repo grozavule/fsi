@@ -7,6 +7,7 @@ import dev.ericdrake.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +32,11 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public Optional<ItemDto> getItem(@PathVariable Integer itemId){
         return itemService.getItemById(itemId);
+    }
+
+    @GetMapping("/")
+    public List<Item> getAllItems(){
+        return itemService.getAllItems();
     }
 
     @PutMapping("/{itemId}")

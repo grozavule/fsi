@@ -1,4 +1,16 @@
+/** VARIABLE DECLARATION **/
 const menuItems = document.querySelectorAll(".menu-item");
+
+/** TEMPLATE DECLARATION **/
+
+
+/** FUNCTION DECLARATIONS **/
+const loadItems = () => {
+    axios.get("/api/items/")
+        .then(res => {
+            console.log(res.data);
+        })
+}
 
 const openSubmenu = e => {
     const submenu = e.target.parentNode.querySelector(".submenu");
@@ -10,6 +22,9 @@ const openSubmenu = e => {
     }
 }
 
+/** EVENT LISTENER DECLARATIONS **/
 menuItems.forEach(menuItem => {
    menuItem.addEventListener("click", openSubmenu);
 });
+
+loadItems();
