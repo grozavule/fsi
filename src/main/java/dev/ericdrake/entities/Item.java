@@ -1,10 +1,9 @@
 package dev.ericdrake.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import dev.ericdrake.dtos.ItemDto;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -18,10 +17,11 @@ public class Item {
     @Column(name = "description")
     private String description;
     @Column(name = "expiration_date")
-    private LocalDate expirationDate;
+    private String expirationDate;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonBackReference
+    @JsonManagedReference(value="binConnection")
+    @ManyToOne
     @JoinColumn(name = "bin_id")
     private Bin bin;
 
@@ -67,11 +67,11 @@ public class Item {
         this.description = description;
     }
 
-    public LocalDate getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 

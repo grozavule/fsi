@@ -1,0 +1,24 @@
+{
+  "name": "fsi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grozavule/fsi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grozavule/fsi/issues"
+  },
+  "homepage": "https://github.com/grozavule/fsi#readme",
+  "dependencies": {
+    "handlebars": "^4.7.7",
+    "webpack": "^5.75.0"
+  }
+}

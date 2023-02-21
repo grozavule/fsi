@@ -1,3 +1,4 @@
+/** UNIVERSAL STYLES **/
 @font-face {
     font-family:"norwester";
     src: url("../fonts/norwester/norwester.eot") format('embedded-opentype'),
@@ -19,6 +20,7 @@
     --primary-color:#A44A3f;
     --secondary-color:#FFF1D0;
     --tertiary-color:#FFFFFF;
+    --default-spacing:20px;
 }
 
 * {
@@ -35,16 +37,26 @@ body {
     font-size:var(--body-font-size);
 }
 
-.container {
-    display:flex;
-    flex-direction:row;
+h1,h2,h3,h4,h5,h6 {
+    font-family:var(--header-font);
+    font-size:var(--header-font-size);
 }
+
+button {
+    border:none;
+    background:var(--primary-color);
+    color:var(--secondary-color);
+    padding:var(--default-spacing);
+}
+
+/** END OF UNIVERSAL STYLES **/
 
 /** SIDE NAVIGATION STYLES **/
 
 #side-navigation {
     display:inline-block;
     min-width:250px;
+    max-width:25vw;
     min-height:100vh;
     background:var(--primary-color);
     color:var(--secondary-color);
@@ -56,7 +68,7 @@ body {
 }
 
 #menu > li {
-    padding:20px 0 20px 20px;
+    padding:var(--default-spacing) 0 var(--default-spacing) var(--default-spacing);
     cursor:pointer;
 }
 
@@ -65,18 +77,18 @@ body {
 }
 
 .menu-item {
-    padding:20px 20px 20px 0;
+    padding:var(--default-spacing) var(--default-spacing) var(--default-spacing) 0;
 }
 
 .submenu {
     display:none;
-    margin-left:-20px;
+    margin-left:calc(0 - var(--default-spacing));
     padding:0;
     background:rgba(0, 0, 0, .33);
 }
 
 .submenu li {
-    padding:20px 45px;
+    padding:var(--default-spacing) 45px;
     transition: all 1s;
 }
 
@@ -86,5 +98,58 @@ body {
 }
 
 /** END OF SIDE NAVIGATION STYLES **/
+
+/** MAIN CONTENT AREA STYLES **/
+
+.fsi-container {
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-start;
+}
+
+main {
+    margin:var(--default-spacing);
+    padding:var(--default-spacing);
+    background:var(--secondary-color);
+    color:var(--primary-color);
+    width:calc(100vw - (2 * var(--default-spacing)) - 25vw)
+}
+
+main header {
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-bottom:var(--default-spacing);
+}
+
+.data-table thead {≠≠
+    background:var(--primary-color);
+    color:var(--secondary-color);
+}
+
+
+.data-table tbody tr {
+    cursor:pointer;
+    transition:all 1s ease;
+}
+
+.data-table tbody tr:hover {
+    background:rgba(164, 74, 63, .33);
+}
+
+/** BOOTSTRAP OVERRIDES **/
+.modal-header {
+    background:var(--primary-color);
+    color:var(--secondary-color);
+}
+
+.modal-content {
+    background:var(--secondary-color);
+    color:var(--primary-color);
+}
+
+.modal-footer {
+    justify-content: center;
+}
 
 

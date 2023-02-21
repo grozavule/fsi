@@ -6,6 +6,7 @@ import dev.ericdrake.services.BinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,8 +26,13 @@ public class BinController {
     }
 
     @GetMapping("/{binId}")
-    public Optional<BinDto> getBins(@PathVariable Integer binId){
+    public Optional<BinDto> getBinById(@PathVariable Integer binId){
         return binService.getBinById(binId);
+    }
+
+    @GetMapping("/")
+    public List<Bin> getAllBins(){
+        return binService.getAllItems();
     }
 
     @PutMapping("/{binId}")

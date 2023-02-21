@@ -3,12 +3,12 @@ package dev.ericdrake.dtos;
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.BinLocation;
 
-import java.util.Set;
+import java.util.List;
 
 public class BinLocationDto {
     private int binLocationId;
     private String locationName;
-    private Set<Bin> bins;
+    private List<Bin> bins;
 
     public BinLocationDto(){}
 
@@ -18,7 +18,7 @@ public class BinLocationDto {
         this.bins = binLocation.getBins();
     }
 
-    public BinLocationDto(int binLocationId, String locationName, Set<Bin> bins){
+    public BinLocationDto(int binLocationId, String locationName, List<Bin> bins){
         this.binLocationId = binLocationId;
         this.locationName = locationName.toUpperCase();
         this.bins = bins;
@@ -40,11 +40,11 @@ public class BinLocationDto {
         this.locationName = locationName.toUpperCase();
     }
 
-    public Set<Bin> getBins() {
+    public List<Bin> getBins() {
         return bins;
     }
 
-    public void setBin(Set<Bin> bins) {
+    public void setBin(List<Bin> bins) {
         this.bins = bins;
     }
 }

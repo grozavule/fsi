@@ -1,8 +1,11 @@
 package dev.ericdrake.services;
 
 import dev.ericdrake.dtos.BinDto;
+import dev.ericdrake.entities.Bin;
+import dev.ericdrake.entities.Item;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BinService {
@@ -17,4 +20,6 @@ public interface BinService {
 
     @Transactional
     public String deleteBin(Integer binId);
+
+    public List<Bin> getAllItems();
 }

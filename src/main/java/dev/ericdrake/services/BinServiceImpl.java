@@ -3,6 +3,7 @@ package dev.ericdrake.services;
 import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.BinLocation;
+import dev.ericdrake.entities.Item;
 import dev.ericdrake.repositories.BinLocationRepository;
 import dev.ericdrake.repositories.BinRepository;
 import jakarta.transaction.Transactional;
@@ -71,5 +72,11 @@ public class BinServiceImpl implements BinService {
             return "The bin has been deleted";
         }
         return "The bin provided could not be found";
+    }
+
+    @Override
+    public List<Bin> getAllItems() {
+        List<Bin> bins = binRepository.findAll();
+        return bins;
     }
 }

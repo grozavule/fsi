@@ -1,12 +1,10 @@
 package dev.ericdrake.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import dev.ericdrake.dtos.BinDto;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="bins")
@@ -18,14 +16,16 @@ public class Bin {
     @Column(unique = true)
     private String binLabel;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference(value="binLocationConnection")
+    @ManyToOne
     @JoinColumn(name = "bin_location_id")
     private BinLocation binLocation;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "bin", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private Set<Item> items;
+    //@JsonManagedReference
+    @JsonBackReference(value="binConnection")
+    @OneToMany(mappedBy = "bin", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    private List<Item> items;
 
     public Bin(){}
 
@@ -59,11 +59,11 @@ public class Bin {
         this.binLocation = binLocation;
     }
 
-    public Set<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Set<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 }

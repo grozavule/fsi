@@ -1,10 +1,10 @@
 package dev.ericdrake.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.ericdrake.dtos.BinLocationDto;
 import jakarta.persistence.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="bin_locations")
@@ -16,9 +16,9 @@ public class BinLocation {
     @Column(unique = true, nullable = false)
     private String locationName;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "binLocation", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private Set<Bin> bins;
+    @JsonBackReference(value="binLocationConnection")
+    @OneToMany(mappedBy = "binLocation", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Bin> bins;
 
     public BinLocation(){}
 
@@ -44,11 +44,11 @@ public class BinLocation {
         this.locationName = locationName.toUpperCase();
     }
 
-    public Set<Bin> getBins() {
+    public List<Bin> getBins() {
         return bins;
     }
 
-    public void setBin(Set<Bin> bins) {
+    public void setBin(List<Bin> bins) {
         this.bins = bins;
     }
 }

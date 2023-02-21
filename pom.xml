@@ -48,6 +48,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -63,6 +69,32 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.10.0</version>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v12.16.1</nodeVersion>
+                            <npmVersion>6.13.4</npmVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

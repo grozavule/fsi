@@ -2,14 +2,16 @@ package dev.ericdrake.dtos;
 
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.Item;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-public class ItemDto {
+import java.io.Serializable;
+@AllArgsConstructor
+public class ItemDto implements Serializable {
     private int itemId;
     private float quantity;
     private String description;
-    private LocalDate expirationDate;
+    private String expirationDate;
     private Bin bin;
 
     public ItemDto() {}
@@ -46,11 +48,11 @@ public class ItemDto {
         this.description = description;
     }
 
-    public LocalDate getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
