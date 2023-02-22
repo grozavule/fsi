@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import dev.ericdrake.dtos.ItemDto;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,7 @@ public class Item {
     @Column(name = "description")
     private String description;
     @Column(name = "expiration_date")
-    private String expirationDate;
+    private LocalDate expirationDate;
 
     //@JsonBackReference
     @JsonManagedReference(value="binConnection")
@@ -67,11 +68,11 @@ public class Item {
         this.description = description;
     }
 
-    public String getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 

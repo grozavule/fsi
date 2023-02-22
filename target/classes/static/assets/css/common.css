@@ -7,9 +7,9 @@
 }
 @font-face {
     font-family:"aaargh";
-    src: url("../fonts/aaargh/aaargh.eot") format('embedded-opentype'),
-    url("../fonts/aaargh/aaargh.ttf") format("truetype"),
-    url("../fonts/aaargh/aaargh.woff") format("woff");
+    src: url("../fonts/aaargh/Aaargh.eot") format('embedded-opentype'),
+    url("../fonts/aaargh/Aaargh.ttf") format("truetype"),
+    url("../fonts/aaargh/Aaargh.woff") format("woff");
 }
 
 :root {
@@ -122,7 +122,7 @@ main header {
     margin-bottom:var(--default-spacing);
 }
 
-.data-table thead {≠≠
+.data-table thead {
     background:var(--primary-color);
     color:var(--secondary-color);
 }
@@ -150,6 +150,14 @@ main header {
 
 .modal-footer {
     justify-content: center;
+}
+
+.table {
+    color:var(--primary-color);
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    color:var(--primary-color);
 }
 
 

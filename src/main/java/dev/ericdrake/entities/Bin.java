@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import dev.ericdrake.dtos.BinDto;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,8 @@ public class Bin {
     @Column(unique = true)
     private String binLabel;
 
-    @JsonManagedReference(value="binLocationConnection")
+    //@JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "binLocationId")
     @ManyToOne
     @JoinColumn(name = "bin_location_id")
     private BinLocation binLocation;
@@ -60,10 +62,27 @@ public class Bin {
     }
 
     public List<Item> getItems() {
+        if(items == null){
+            items = new ArrayList<>();
+        }
         return items;
     }
 
+    public void addItem(Item item){
+        this.getItems().add(item);
+        item.setBin(this);
+    }
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Bin{" +
+                "binId=" + binId +
+                ", binLabel='" + binLabel + '\'' +
+                ", binLocation=" + binLocation +
+                //", items=" + items +
+                '}';
     }
 }

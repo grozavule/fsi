@@ -8,6 +8,7 @@ import dev.ericdrake.services.BinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +29,11 @@ public class BinLocationController {
     @GetMapping("/{binLocationId}")
     public Optional<BinLocationDto> getBinLocations(@PathVariable Integer binLocationId){
         return binLocationService.getBinLocationById(binLocationId);
+    }
+
+    @GetMapping("/")
+    public List<BinLocation> getAllBinLocations(){
+        return binLocationService.getAllBinLocations();
     }
 
     @PutMapping("/{binLocationId}")

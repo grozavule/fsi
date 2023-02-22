@@ -25,10 +25,12 @@ public class ItemServiceImpl implements ItemService {
     public String addItem(ItemDto itemDto, Integer binId){
         try {
             Item item = new Item(itemDto);
-            Optional<Bin> binOptional = binRepository.findById(binId);
+            //Optional<Bin> binOptional = binRepository.findById(binId);
+            Optional<Bin> binOptional = binRepository.findBinWithBinLocationByBinId(binId);
             if(binOptional.isPresent()){
                 Bin bin = binOptional.get();
-                item.setBin(bin);
+                //item.setBin(bin);
+                bin.addItem(item);
             } else {
                 return "The bin provided could not be found";
             }
@@ -41,8 +43,18 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     public List<Item> getAllItems(){
-        List<Item> items = itemRepository.findAll();
+        //List<Item> items = itemRepository.findAll();
+        //List<Item> items = itemRepository.getAllItemsWithAllAncestors();
+        List<Item> items = itemRepository.getAllItemsWithBinsAndBinLocations();
+        displayItemList(items);
         return items;
+    }
+
+    private void displayItemList(List<Item> items) {
+        for(Item item : items){
+            System.out.println("Item ID: " + item.getItemId());
+            System.out.println("Bin Location: " + item.getBin().getBinLocation().getLocationName());
+        }
     }
 
     @Override

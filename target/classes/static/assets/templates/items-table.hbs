@@ -6,16 +6,21 @@
             <th>Expiration Date</th>
             <th>Bin</th>
             <th>Bin Location</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {{#each this}}
-        <tr data-id="{{id}}">
+        <tr data-id="{{itemId}}">
             <td>{{description}}</td>
             <td>{{quantity}}</td>
             <td>{{expirationDate}}</td>
-            <td>{{bin.binLabel}}</td>
-            <td>{{bin.binLocation.locationName}}</td>
+            <td>{{binLabel}}</td>
+            <td>{{binLocationName}}</td>
+            <td>
+                <i class="fas fa-edit" data-action="edit" data-id="{{itemId}}"></i>
+                <i class="fas fa-trash-alt" data-action="delete" data-id="{{itemId}}"></i>
+            </td>
         </tr>
         {{/each}}
     </tbody>

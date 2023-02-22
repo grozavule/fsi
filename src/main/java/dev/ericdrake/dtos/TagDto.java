@@ -2,7 +2,10 @@ package dev.ericdrake.dtos;
 
 import dev.ericdrake.entities.Tag;
 
-public class TagDto {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class TagDto implements Serializable {
     private Integer tagId;
     private String tag;
 

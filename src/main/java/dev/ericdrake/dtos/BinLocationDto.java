@@ -3,9 +3,10 @@ package dev.ericdrake.dtos;
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.BinLocation;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BinLocationDto {
+public class BinLocationDto implements Serializable {
     private int binLocationId;
     private String locationName;
     private List<Bin> bins;
