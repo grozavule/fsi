@@ -47,23 +47,27 @@ public class ItemServiceImpl implements ItemService {
         //List<Item> items = itemRepository.findAll();
         //List<Item> items = itemRepository.getAllItemsWithAllAncestors();
         List<Item> items = itemRepository.getAllItemsWithBinsAndBinLocations();
-        displayItemList(items);
+        //displayItemList(items);
         return items;
     }
 
-    private void displayItemList(List<Item> items) {
-        for(Item item : items){
-            System.out.println("Item ID: " + item.getItemId());
-            System.out.println("Bin Location: " + item.getBin().getBinLocation().getLocationName());
-        }
-    }
+//    private void displayItemList(List<Item> items) {
+//        for(Item item : items){
+//            System.out.println("Item ID: " + item.getItemId());
+//            System.out.println("Bin Location: " + item.getBin().getBinLocation().getLocationName());
+//        }
+//    }
 
     @Override
     @Transactional
     public Optional<ItemDto> getItemById(Integer itemId){
-        Optional<Item> item = itemRepository.findById(itemId);
-        if(item.isPresent()){
-            return Optional.of(new ItemDto(item.get()));
+        try {
+            Optional<Item> itemOptional = itemRepository.findById(itemId);
+            if(itemOptional.isPresent()){
+                return Optional.of(new ItemDto(itemOptional.get()));
+            }
+        } catch(Exception e){
+            e.printStackTrace();
         }
         return Optional.empty();
     }

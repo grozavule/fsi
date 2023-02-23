@@ -40,6 +40,9 @@
                         <label for="bin-location">Bin Location</label>
                         <select id="bin-location" class="form-select"></select>
                     </div>
+                    {{#if itemId}}
+                        <input type="hidden" id="itemId" value="{{itemId}}" />
+                    {{/if}}
                 </form>
             </div>
             <div class="modal-footer">

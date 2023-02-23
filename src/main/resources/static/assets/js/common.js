@@ -17,16 +17,17 @@ const menuItems = document.querySelectorAll(".menu-item");
 /** FUNCTION DECLARATIONS **/
 const addItem = e => {
     e.preventDefault();
-    const itemDescription = document.querySelector("#description").value;
-    const itemQuantity = document.querySelector("#quantity").value;
-    const expirationDate = document.querySelector("#expiration-date").value;
     const binId = document.querySelector("#bin-location").value;
-
-    let item = {
-        "description": itemDescription,
-        "quantity": itemQuantity,
-        "expirationDate": expirationDate,
-    };
+    // const itemDescription = document.querySelector("#description").value;
+    // const itemQuantity = document.querySelector("#quantity").value;
+    // const expirationDate = document.querySelector("#expiration-date").value;
+    //
+    // let item = {
+    //     "description": itemDescription,
+    //     "quantity": itemQuantity,
+    //     "expirationDate": expirationDate,
+    // };
+    let item = createItemObjFromItemModal();
 
     axios.post(`/api/items/bin/${binId}`, item)
         .then(res => {
@@ -44,6 +45,33 @@ const addItem = e => {
         });
 }
 
+const captureEditButtonClick = e => {
+    const button = e.currentTarget;
+    const itemId = button.getAttribute("data-id");
+    const item = findItem(itemId);
+
+    displayItemModal(item);
+
+    // axios.get(`/api/items/${itemId}`)
+    //     .then(res => {
+    //         console.log(res.data);
+    //     });
+}
+
+const createItemObjFromItemModal = () => {
+    const itemDescription = document.querySelector("#description").value;
+    const itemQuantity = document.querySelector("#quantity").value;
+    const expirationDate = document.querySelector("#expiration-date").value;
+
+    let item = {
+        "description": itemDescription,
+        "quantity": itemQuantity,
+        "expirationDate": expirationDate,
+    };
+
+    return item;
+}
+
 const displayError = error => {
     let errorContainer = document.createElement("div");
     errorContainer.classList.add("alert");
@@ -53,9 +81,12 @@ const displayError = error => {
     mainContent.prepend(errorContainer);
 }
 
-const displayItemModal = (item = {}) => {
+function displayItemModal(item = {}) {
+    const isModalInEditMode = Object.keys(item).length > 0;
+    alert(item);
+
     if(itemModal !== null){
-        itemModal.remove();
+        itemModal.dispose();
     }
 
     const html = itemModalTemplate(item);
@@ -64,10 +95,14 @@ const displayItemModal = (item = {}) => {
     document.body.appendChild(modalContainer);
 
     populateBinsDropDown();
-    const saveItemButton = document.querySelector("#btn-save-item");
-    saveItemButton.addEventListener("click", addItem);
 
-    //console.log(html);
+    const saveItemButton = document.querySelector("#btn-save-item");
+    if(isModalInEditMode){
+        saveItemButton.addEventListener("click", editItem);
+    } else {
+        saveItemButton.addEventListener("click", addItem);
+    }
+
     itemModal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
     itemModal.show();
 }
@@ -78,54 +113,29 @@ const displayItems = () => {
     mainContent.innerHTML = html;
 
     let editItemButtons = document.querySelectorAll(".btn-edit-item");
-    editItemButtons.forEach(button => button.addEventListener("click", editItem));
+    editItemButtons.forEach(button => button.addEventListener("click", captureEditButtonClick));
 }
 
-function editItem(e){
-    const button = e.currentTarget;
-    const itemId = button.getAttribute("data-id");
+function editItem() {
+    let itemId = document.querySelector("#itemId").value;
+    let binId = document.querySelector("#bin-location").value;
+    let item = createItemObjFromItemModal();
+    item["itemId"] = itemId;
+    item["binId"] = binId;
 
-    axios.get(`/api/items/${itemId}`)
+    axios.put(`/api/items/${itemId}`, item)
         .then(res => {
-            console.log(res.data);
-            //const html = itemModalTemplate(res.data);
-            //const modalContainer = document.createElement("div");
-            //modalContainer.innerHTML = html;
-            //document.body.appendChild(modalContainer);
+            refreshItemsTable();
+        })
+        .catch(error => displayError(error))
+        .finally(() => {
+            itemModal.hide();
         });
 }
 
-//finds the bin to which an item was assigned
-const findBin = item => {
-    return bins.find(bin => bin.binId === item.bin.binId);
-}
-
-//find the bin location (storage area) in which a bin has been placed
-const findBinLocation = bin => {
-    return binLocations.find(location => {
-        let binLocationId = (bin.binLocation.binLocationId) ? bin.binLocation.binLocationId : bin.binLocation;
-        return location.binLocationId === binLocationId;
-    });
-}
-
-const matchBinsAndLocations = () => {
-    bins = bins.map(bin => {
-        let binLocation = findBinLocation(bin);
-        bin["binLocationName"] = binLocation.locationName;
-        return bin;
-    });
-}
-
-//to reduce the size of JSON responses, only the binLocationId is returned when retrieving inventory items
-//this function combines the bins to which items have been assigned with their corresponding bin locations
-const matchItemsAndLocations = items => {
-    inventoryItems = items.map(item => {
-        let bin = findBin(item);
-        let binLocation = findBinLocation(bin);
-        item["binLabel"] = bin.binLabel;
-        item["binLocationName"] = binLocation.locationName;
-        return item;
-    });
+function findItem(itemId) {
+    itemId = parseInt(itemId);
+    return inventoryItems.find(item => item.itemId === itemId);
 }
 
 const openSubmenu = e => {
@@ -139,9 +149,14 @@ const openSubmenu = e => {
 }
 
 const populateBinsDropDown = () => {
-    console.log(bins);
     const binLocationDropdown = document.querySelector("#bin-location");
     binLocationDropdown.innerHTML = binsDropdownTemplate(bins);
+}
+
+const refreshItemsTable = () => {
+    let itemsPromise = retrieveItems();
+    itemsPromise.then(items => inventoryItems = items);
+    displayItems();
 }
 
 const retrieveBinLocations = () => {
@@ -161,7 +176,6 @@ const retrieveBins = () => {
         axios.get("/api/bins/")
             .then(res => {
                 bins = res.data;
-                matchBinsAndLocations();
                 resolve(res.data);
             })
             .catch(error => reject(error.message));
@@ -182,19 +196,6 @@ const retrieveItems = () => {
 
 //loads all the item, bin, and binLocation data on page load
 const startUp = () => {
-    // let binLocationsPromise = retrieveBinLocations();
-    // binLocationsPromise.then(locations => {
-    //     binLocations = locations;
-    //     let binsPromise = retrieveBins();
-    //     binsPromise.then(retrievedBins => {
-    //         bins = retrievedBins;
-    //         let itemsPromise = retrieveItems();
-    //         itemsPromise.then(retrievedItems => {
-    //             matchItemsAndLocations(retrievedItems);
-    //             displayItems();
-    //         });
-    //     });
-    // });
     let binsPromise = retrieveBins();
     binsPromise.then(retrievedBins => bins = retrievedBins);
 
@@ -206,9 +207,9 @@ const startUp = () => {
 }
 
 /** EVENT LISTENER DECLARATIONS **/
-addItemButton.addEventListener("click", displayItemModal);
-
-//addItemModalObj.addEventListener("show.bs.modal", populateBinsDropDown);
+addItemButton.addEventListener("click", (e) => {
+    displayItemModal();
+});
 
 menuItems.forEach(menuItem => {
    menuItem.addEventListener("click", openSubmenu);

@@ -43,6 +43,17 @@ templates['item-modal.hbs'] = template({"1":function(container,depth0,helpers,pa
     + "\" />\n";
 },"15":function(container,depth0,helpers,partials,data) {
     return "                            <input type=\"date\" id=\"expiration-date\" class=\"form-control\" />\n";
+},"17":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                        <input type=\"hidden\" id=\"itemId\" value=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"itemId") || (depth0 != null ? lookupProperty(depth0,"itemId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"itemId","hash":{},"data":data,"loc":{"start":{"line":44,"column":64},"end":{"line":44,"column":74}}}) : helper)))
+    + "\" />\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -59,6 +70,8 @@ templates['item-modal.hbs'] = template({"1":function(container,depth0,helpers,pa
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"quantity") : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.program(11, data, 0),"data":data,"loc":{"start":{"line":25,"column":24},"end":{"line":29,"column":31}}})) != null ? stack1 : "")
     + "                    </div>\n                    <div class=\"mb-3\">\n                        <label for=\"expiration-date\">Expiration Date</label>\n"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"expirationDate") : depth0),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.program(15, data, 0),"data":data,"loc":{"start":{"line":33,"column":24},"end":{"line":37,"column":31}}})) != null ? stack1 : "")
-    + "                    </div>\n                    <div class=\"mb-3\">\n                        <label for=\"bin-location\">Bin Location</label>\n                        <select id=\"bin-location\" class=\"form-select\"></select>\n                    </div>\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" data-bs-dismiss=\"modal\">Cancel</button>\n                <button type=\"submit\" id=\"btn-save-item\">Save</button>\n            </div>\n        </div>\n    </div>\n</div>";
+    + "                    </div>\n                    <div class=\"mb-3\">\n                        <label for=\"bin-location\">Bin Location</label>\n                        <select id=\"bin-location\" class=\"form-select\"></select>\n                    </div>\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"itemId") : depth0),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":43,"column":20},"end":{"line":45,"column":27}}})) != null ? stack1 : "")
+    + "                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" data-bs-dismiss=\"modal\">Cancel</button>\n                <button type=\"submit\" id=\"btn-save-item\">Save</button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true});
 })();
