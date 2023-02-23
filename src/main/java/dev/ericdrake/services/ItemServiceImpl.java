@@ -29,12 +29,13 @@ public class ItemServiceImpl implements ItemService {
             Optional<Bin> binOptional = binRepository.findBinWithBinLocationByBinId(binId);
             if(binOptional.isPresent()){
                 Bin bin = binOptional.get();
-                //item.setBin(bin);
+                item.setBin(bin);
                 bin.addItem(item);
+                itemRepository.saveAndFlush(item);
+                binRepository.saveAndFlush(bin);
             } else {
                 return "The bin provided could not be found";
             }
-            itemRepository.saveAndFlush(item);
             return "The new item has been added";
         } catch(Exception e){
             return e.getMessage();

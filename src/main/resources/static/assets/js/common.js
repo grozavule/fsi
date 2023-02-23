@@ -2,19 +2,17 @@
 
 /** TEMPLATE DECLARATION **/
 const itemsTableTemplate = Handlebars.templates["items-table.hbs"];
+const itemModalTemplate = Handlebars.templates['item-modal.hbs'];
 const binsDropdownTemplate = Handlebars.templates["bins-dropdown.hbs"];
 
 /** VARIABLE DECLARATION **/
 let bins = [];
 let binLocations = [];
 let inventoryItems = [];
-const addItemModalObj = document.querySelector("#modal-add-item");
-const addItemModal = new bootstrap.Modal("#modal-add-item", {});
-const binLocationDropdown = document.querySelector("#bin-location");
+let itemModal = null;
+const addItemButton = document.querySelector("#btn-add-item");
 const mainContent = document.querySelector("#main-content");
 const menuItems = document.querySelectorAll(".menu-item");
-const saveItemButton = document.querySelector("#btn-save-item");
-const editItemButtons = document.querySelectorAll(".fa-edit");
 
 /** FUNCTION DECLARATIONS **/
 const addItem = e => {
@@ -22,24 +20,27 @@ const addItem = e => {
     const itemDescription = document.querySelector("#description").value;
     const itemQuantity = document.querySelector("#quantity").value;
     const expirationDate = document.querySelector("#expiration-date").value;
-    const binId = binLocationDropdown.value;
+    const binId = document.querySelector("#bin-location").value;
 
     let item = {
         "description": itemDescription,
         "quantity": itemQuantity,
         "expirationDate": expirationDate,
-        "binId": binId
     };
 
     axios.post(`/api/items/bin/${binId}`, item)
         .then(res => {
-            retrieveItems();
+            let itemsPromise = retrieveItems();
+            itemsPromise.then(items => {
+                inventoryItems = items
+                displayItems();
+            });
         })
         .catch(error => {
             displayError(error);
         })
         .finally(() => {
-            addItemModal.hide();
+            itemModal.hide();
         });
 }
 
@@ -52,10 +53,46 @@ const displayError = error => {
     mainContent.prepend(errorContainer);
 }
 
+const displayItemModal = (item = {}) => {
+    if(itemModal !== null){
+        itemModal.remove();
+    }
+
+    const html = itemModalTemplate(item);
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = html;
+    document.body.appendChild(modalContainer);
+
+    populateBinsDropDown();
+    const saveItemButton = document.querySelector("#btn-save-item");
+    saveItemButton.addEventListener("click", addItem);
+
+    //console.log(html);
+    itemModal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
+    itemModal.show();
+}
+
 //generates the item inventory table
 const displayItems = () => {
     const html = itemsTableTemplate(inventoryItems);
     mainContent.innerHTML = html;
+
+    let editItemButtons = document.querySelectorAll(".btn-edit-item");
+    editItemButtons.forEach(button => button.addEventListener("click", editItem));
+}
+
+function editItem(e){
+    const button = e.currentTarget;
+    const itemId = button.getAttribute("data-id");
+
+    axios.get(`/api/items/${itemId}`)
+        .then(res => {
+            console.log(res.data);
+            //const html = itemModalTemplate(res.data);
+            //const modalContainer = document.createElement("div");
+            //modalContainer.innerHTML = html;
+            //document.body.appendChild(modalContainer);
+        });
 }
 
 //finds the bin to which an item was assigned
@@ -91,17 +128,6 @@ const matchItemsAndLocations = items => {
     });
 }
 
-const retrieveItems = () => {
-    let itemsPromise = new Promise((resolve, reject) => {
-        axios.get("/api/items/")
-            .then(res => {
-                resolve(res.data);
-            })
-            .catch(error => reject(error.message));
-    });
-    return itemsPromise;
-}
-
 const openSubmenu = e => {
     const submenu = e.target.parentNode.querySelector(".submenu");
     const displayValue = submenu.style.display;
@@ -112,10 +138,10 @@ const openSubmenu = e => {
     }
 }
 
-const populateBinsDropDown = e => {
+const populateBinsDropDown = () => {
     console.log(bins);
-    const selectOptions = binsDropdownTemplate(bins);
-    binLocationDropdown.innerHTML = selectOptions;
+    const binLocationDropdown = document.querySelector("#bin-location");
+    binLocationDropdown.innerHTML = binsDropdownTemplate(bins);
 }
 
 const retrieveBinLocations = () => {
@@ -143,30 +169,49 @@ const retrieveBins = () => {
     return promise;
 }
 
+const retrieveItems = () => {
+    let itemsPromise = new Promise((resolve, reject) => {
+        axios.get("/api/items/")
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(error => reject(error.message));
+    });
+    return itemsPromise;
+}
+
 //loads all the item, bin, and binLocation data on page load
 const startUp = () => {
-    let binLocationsPromise = retrieveBinLocations();
-    binLocationsPromise.then(locations => {
-        binLocations = locations;
-        let binsPromise = retrieveBins();
-        binsPromise.then(retrievedBins => {
-            bins = retrievedBins;
-            let itemsPromise = retrieveItems();
-            itemsPromise.then(retrievedItems => {
-                matchItemsAndLocations(retrievedItems);
-                displayItems();
-            });
-        });
+    // let binLocationsPromise = retrieveBinLocations();
+    // binLocationsPromise.then(locations => {
+    //     binLocations = locations;
+    //     let binsPromise = retrieveBins();
+    //     binsPromise.then(retrievedBins => {
+    //         bins = retrievedBins;
+    //         let itemsPromise = retrieveItems();
+    //         itemsPromise.then(retrievedItems => {
+    //             matchItemsAndLocations(retrievedItems);
+    //             displayItems();
+    //         });
+    //     });
+    // });
+    let binsPromise = retrieveBins();
+    binsPromise.then(retrievedBins => bins = retrievedBins);
+
+    let itemsPromise = retrieveItems();
+    itemsPromise.then(items => {
+        inventoryItems = items
+        displayItems();
     });
 }
 
 /** EVENT LISTENER DECLARATIONS **/
-addItemModalObj.addEventListener("show.bs.modal", populateBinsDropDown);
+addItemButton.addEventListener("click", displayItemModal);
+
+//addItemModalObj.addEventListener("show.bs.modal", populateBinsDropDown);
 
 menuItems.forEach(menuItem => {
    menuItem.addEventListener("click", openSubmenu);
 });
-
-saveItemButton.addEventListener("click", addItem);
 
 startUp();

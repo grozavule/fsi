@@ -32,7 +32,7 @@ public class BinController {
 
     @GetMapping("/")
     public List<Bin> getAllBins(){
-        return binService.getAllItems();
+        return binService.getAllBins();
     }
 
     @PutMapping("/{binId}")

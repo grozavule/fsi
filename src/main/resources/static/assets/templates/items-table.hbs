@@ -18,8 +18,12 @@
             <td>{{binLabel}}</td>
             <td>{{binLocationName}}</td>
             <td>
-                <i class="fas fa-edit" data-action="edit" data-id="{{itemId}}"></i>
-                <i class="fas fa-trash-alt" data-action="delete" data-id="{{itemId}}"></i>
+                <button class="table-btn btn-edit-item" data-action="edit" data-id="{{itemId}}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="table-btn btn-delete-item" data-action="delete" data-id="{{itemId}}">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </td>
         </tr>
         {{/each}}

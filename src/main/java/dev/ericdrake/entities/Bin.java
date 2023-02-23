@@ -17,8 +17,8 @@ public class Bin {
     @Column(unique = true)
     private String binLabel;
 
-    //@JsonBackReference
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "binLocationId")
+    @JsonBackReference
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "binLocationId")
     @ManyToOne
     @JoinColumn(name = "bin_location_id")
     private BinLocation binLocation;

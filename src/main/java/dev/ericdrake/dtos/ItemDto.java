@@ -2,6 +2,7 @@ package dev.ericdrake.dtos;
 
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.Item;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 
 import java.io.Serializable;

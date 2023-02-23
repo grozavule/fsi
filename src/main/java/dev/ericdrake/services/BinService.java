@@ -21,5 +21,6 @@ public interface BinService {
     @Transactional
     public String deleteBin(Integer binId);
 
-    public List<Bin> getAllItems();
+    @Transactional
+    public List<Bin> getAllBins();
 }

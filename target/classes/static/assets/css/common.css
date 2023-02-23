@@ -137,6 +137,13 @@ main header {
     background:rgba(164, 74, 63, .33);
 }
 
+.table-btn {
+    background:none;
+    color:inherit;
+    border:none;
+    padding:0;
+}
+
 /** BOOTSTRAP OVERRIDES **/
 .modal-header {
     background:var(--primary-color);

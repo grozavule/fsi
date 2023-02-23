@@ -75,8 +75,16 @@ public class BinServiceImpl implements BinService {
     }
 
     @Override
-    public List<Bin> getAllItems() {
-        List<Bin> bins = binRepository.findAll();
+    public List<Bin> getAllBins() {
+        List<Bin> bins = binRepository.getAllBinsWithBinLocations();
+        displayBins(bins);
         return bins;
+    }
+
+    private void displayBins(List<Bin> bins) {
+        for(Bin bin : bins){
+            System.out.println("Bin Id:" + bin.getBinId());
+            System.out.println("Bin Location:" + bin.getBinLocation().getLocationName());
+        }
     }
 }
