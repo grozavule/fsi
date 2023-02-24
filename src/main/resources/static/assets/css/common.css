@@ -27,6 +27,11 @@
     box-sizing: border-box;
 }
 
+a:visited, a:hover, a:link, a:active {
+    text-decoration: none;
+    color:inherit;
+}
+
 body {
     margin:0;
     padding:0;
