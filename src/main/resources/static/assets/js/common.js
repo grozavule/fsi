@@ -38,7 +38,7 @@ const addItem = e => {
             });
         })
         .catch(error => {
-            displayError(error);
+            displayAlert('danger', error);
         })
         .finally(() => {
             itemModal.hide();
@@ -72,13 +72,14 @@ const createItemObjFromItemModal = () => {
     return item;
 }
 
-const displayError = error => {
-    let errorContainer = document.createElement("div");
-    errorContainer.classList.add("alert");
-    errorContainer.classList.add("alert-danger");
-    errorContainer.textContent = error;
+const displayAlert = (type, message) => {
+    let alertContainer = document.createElement("div");
+    alertContainer.classList.add("alert");
+    alertContainer.classList.add(`alert-${type}`);
+    alertContainer.textContent = message;
 
-    mainContent.prepend(errorContainer);
+    const mainContainer = document.querySelector("main");
+    mainContainer.insertBefore(alertContainer, mainContent);
 }
 
 function displayItemModal(item = {}) {
@@ -125,8 +126,9 @@ function editItem() {
     axios.put(`/api/items/${itemId}`, item)
         .then(res => {
             refreshItemsTable();
+            displayAlert('success', `${item.description} was successfully updated`);
         })
-        .catch(error => displayError(error))
+        .catch(error => displayAlert('danger', error))
         .finally(() => {
             itemModal.hide();
         });
