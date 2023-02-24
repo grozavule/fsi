@@ -1,9 +1,10 @@
-console.log(Handlebars.templates);
+//console.log(Handlebars.templates);
 
 /*** TEMPLATE DECLARATIONS ***/
 const confirmationModalTemplate = Handlebars.templates["confirmation-modal.hbs"];
 
 /*** VARIABLE DECLARATIONS ***/
+let bins = [];
 const mainContent = document.querySelector("#main-content");
 // const menuItems = document.querySelectorAll(".menu-item");
 
@@ -36,6 +37,18 @@ const generateConfirmationModal = (title, message) => {
 //         submenu.style.display = "block";
 //     }
 // }
+
+const retrieveBins = () => {
+    let promise = new Promise((resolve, reject) => {
+        axios.get("/api/bins/")
+            .then(res => {
+                bins = res.data;
+                resolve(res.data);
+            })
+            .catch(error => reject(error.message));
+    });
+    return promise;
+}
 
 /*** EVENT HANDLERS ***/
 

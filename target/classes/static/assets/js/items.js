@@ -4,7 +4,6 @@ const itemModalTemplate = Handlebars.templates['item-modal.hbs'];
 const itemsTableTemplate = Handlebars.templates["items-table.hbs"];
 
 /** VARIABLE DECLARATION **/
-let bins = [];
 let binLocations = [];
 let inventoryItems = [];
 let itemModal = null;
@@ -132,7 +131,7 @@ function editItem() {
     item["binId"] = binId;
 
     axios.put(`/api/items/${itemId}`, item)
-        .then(res => {
+        .then(() => {
             refreshItemsTable();
             displayAlert('success', `${item.description} was successfully updated`);
         })
@@ -176,18 +175,6 @@ const retrieveBinLocations = () => {
         axios.get("/api/bin_locations/")
             .then(res => {
                 binLocations = res.data;
-                resolve(res.data);
-            })
-            .catch(error => reject(error.message));
-    });
-    return promise;
-}
-
-const retrieveBins = () => {
-    let promise = new Promise((resolve, reject) => {
-        axios.get("/api/bins/")
-            .then(res => {
-                bins = res.data;
                 resolve(res.data);
             })
             .catch(error => reject(error.message));

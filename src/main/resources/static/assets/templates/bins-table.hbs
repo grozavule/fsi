@@ -1,0 +1,25 @@
+<table class="table table-bordered table-striped data-table">
+    <thead>
+    <tr>
+        <th>Bin Label</th>
+        <th>Bin Location</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each this}}
+        <tr data-bin-id="{{binId}}">
+            <td>{{binLabel}}</td>
+            <td>{{binLocationName}}</td>
+            <td>
+                <button class="table-btn btn-edit-bin" data-action="edit" data-bin-id="{{binId}}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="table-btn btn-delete-bin" data-action="delete" data-bin-id="{{itemId}}">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
