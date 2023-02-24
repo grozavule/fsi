@@ -132,7 +132,7 @@ function editItem() {
     item["binId"] = binId;
 
     axios.put(`/api/items/${itemId}`, item)
-        .then(res => {
+        .then(() => {
             refreshItemsTable();
             displayAlert('success', `${item.description} was successfully updated`);
         })
