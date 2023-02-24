@@ -83,7 +83,6 @@ const displayError = error => {
 
 function displayItemModal(item = {}) {
     const isModalInEditMode = Object.keys(item).length > 0;
-    alert(item);
 
     if(itemModal !== null){
         itemModal.dispose();
@@ -134,6 +133,9 @@ function editItem() {
 }
 
 function findItem(itemId) {
+    if(inventoryItems.length <= 0){
+        refreshItemsTable();
+    }
     itemId = parseInt(itemId);
     return inventoryItems.find(item => item.itemId === itemId);
 }
@@ -149,14 +151,24 @@ const openSubmenu = e => {
 }
 
 const populateBinsDropDown = () => {
+    if(bins.length <= 0 ){
+        refreshBins();
+    }
     const binLocationDropdown = document.querySelector("#bin-location");
     binLocationDropdown.innerHTML = binsDropdownTemplate(bins);
 }
 
+const refreshBins = () => {
+    let binsPromise = retrieveBins();
+    binsPromise.then(retrievedBins => bins = retrievedBins);
+}
+
 const refreshItemsTable = () => {
     let itemsPromise = retrieveItems();
-    itemsPromise.then(items => inventoryItems = items);
-    displayItems();
+    itemsPromise.then(items => {
+        inventoryItems = items
+        displayItems();
+    });
 }
 
 const retrieveBinLocations = () => {
