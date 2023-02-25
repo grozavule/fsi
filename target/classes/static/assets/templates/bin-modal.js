@@ -25,7 +25,7 @@ templates['bin-modal.hbs'] = template({"1":function(container,depth0,helpers,par
         return undefined
     };
 
-  return "                        <input type=\"hidden\" id=\"itemId\" value=\""
+  return "                        <input type=\"hidden\" id=\"bin-id\" value=\""
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"binId") || (depth0 != null ? lookupProperty(depth0,"binId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"binId","hash":{},"data":data,"loc":{"start":{"line":28,"column":64},"end":{"line":28,"column":73}}}) : helper)))
     + "\" />\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {

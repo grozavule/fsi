@@ -29,7 +29,11 @@ const captureAddBinButtonClick = e => {
 }
 
 const captureEditBinButtonClick = e => {
+    const button = e.currentTarget;
+    const binId = button.getAttribute("data-bin-id");
+    const bin = findBin(binId);
 
+    displayBinModal(bin);
 }
 
 const captureDeleteBinButtonClick = e => {
@@ -40,7 +44,7 @@ const createBinObjFromBinModal = () => {
     const binLabel = document.querySelector("#bin-label").value;
     const binLocationId = document.querySelector("#bin-location").value;
     let bin = {
-        "binLabel": binLabel
+        "binLabel": binLabel,
         //"binLocationId": binLocationId
     };
 
@@ -72,10 +76,6 @@ const displayBinModal = (bin = {}) => {
     binModal.show();
 }
 
-const editBin = (e) => {
-
-}
-
 const displayBins = () => {
     const html = binsTableTemplate(bins);
     mainContent.innerHTML = html;
@@ -85,6 +85,29 @@ const displayBins = () => {
 
     let deleteBinButtons = document.querySelectorAll(".btn-delete-bin");
     deleteBinButtons.forEach(button => button.addEventListener("click", captureDeleteBinButtonClick));
+}
+
+const editBin = (e) => {
+    let binId = document.querySelector("#bin-id").value;
+    let binLocationId = document.querySelector("#bin-location").value;
+    let bin = createBinObjFromBinModal();
+    bin["binId"] = binId;
+    bin["binLocationId"] = binLocationId;
+
+    axios.put(`/api/bins/${binId}`, bin)
+        .then(() => {
+            refreshBins();
+            displayAlert('success', `${bin.binLabel} was successfully updated`);
+        })
+        .catch(error => displayAlert('danger', error.message))
+        .finally(() => {
+            binModal.hide();
+        });
+}
+
+const findBin = binId => {
+    binId = parseInt(binId);
+    return bins.find(bin => bin.binId === binId);
 }
 
 const populateBinLocationsDropdown = () => {
