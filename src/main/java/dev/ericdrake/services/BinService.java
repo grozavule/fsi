@@ -3,6 +3,8 @@ package dev.ericdrake.services;
 import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.Item;
+import dev.ericdrake.exceptions.BinDeletionException;
+import dev.ericdrake.exceptions.InvalidBinException;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public interface BinService {
     public String updateBin(BinDto binDto);
 
     @Transactional
-    public String deleteBin(Integer binId);
+    public String deleteBin(Integer binId) throws BinDeletionException, InvalidBinException;
 
     @Transactional
     public List<Bin> getAllBins();

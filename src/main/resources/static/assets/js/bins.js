@@ -37,7 +37,35 @@ const captureEditBinButtonClick = e => {
 }
 
 const captureDeleteBinButtonClick = e => {
+    const button = e.currentTarget;
+    const binId = button.getAttribute("data-bin-id");
+    const bin = findBin(binId);
 
+    console.log(`Bin ID: ${binId}`);
+    console.log(`Bin: ${Object.keys(bin)}`);
+
+    const modalHtml = generateConfirmationModal(`Confirm Delete: ${bin.binLabel}`,
+        `By deleting this bin, all its items will need to be assigned to other bins. Do you want to continue?`);
+
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = modalHtml;
+    document.body.appendChild(modalContainer);
+    const confirmationModal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
+
+    const confirmationButton = modalContainer.querySelector("#btn-modal-confirm");
+    confirmationButton.addEventListener("click", (e) => {
+        axios.delete(`/api/bins/${binId}`)
+            .then(res => {
+                refreshItemsTable();
+                displayAlert(`success`, `${bin.binLabel} was successfully deleted`);
+            })
+            .catch(error => displayAlert(`danger`,
+                "Oops! Something went wrong. Please verify there are no items still assigned to this bin."))
+            .finally(() => {
+                confirmationModal.hide();
+            });
+    });
+    confirmationModal.show();
 }
 
 const createBinObjFromBinModal = () => {
@@ -107,7 +135,7 @@ const editBin = (e) => {
 
 const findBin = binId => {
     binId = parseInt(binId);
-    return bins.find(bin => bin.binId === binId);
+    return bins.find(bin => bin.binId == binId);
 }
 
 const populateBinLocationsDropdown = () => {

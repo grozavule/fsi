@@ -2,8 +2,12 @@ package dev.ericdrake.controllers;
 
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.dtos.BinDto;
+import dev.ericdrake.exceptions.BinDeletionException;
+import dev.ericdrake.exceptions.InvalidBinException;
 import dev.ericdrake.services.BinService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,8 +53,14 @@ public class BinController {
     }
 
     @DeleteMapping("/{binId}")
-    public String deleteBin(@PathVariable Integer binId){
+    public String deleteBin(@PathVariable Integer binId) throws BinDeletionException, InvalidBinException {
         binService.deleteBin(binId);
         return "The bin has been successfully deleted";
+    }
+
+    @ExceptionHandler({BinDeletionException.class, InvalidBinException.class, Exception.class})
+    public ResponseEntity<String> handleException(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(e.getMessage());
     }
 }

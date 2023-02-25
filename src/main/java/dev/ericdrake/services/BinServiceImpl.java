@@ -4,6 +4,8 @@ import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.BinLocation;
 import dev.ericdrake.entities.Item;
+import dev.ericdrake.exceptions.BinDeletionException;
+import dev.ericdrake.exceptions.InvalidBinException;
 import dev.ericdrake.repositories.BinLocationRepository;
 import dev.ericdrake.repositories.BinRepository;
 import jakarta.transaction.Transactional;
@@ -68,13 +70,17 @@ public class BinServiceImpl implements BinService {
 
     @Override
     @Transactional
-    public String deleteBin(Integer binId){
+    public String deleteBin(Integer binId) throws BinDeletionException, InvalidBinException {
         Optional<Bin> binOptional = binRepository.findById(binId);
         if(binOptional.isPresent()){
-            binRepository.delete(binOptional.get());
+            try {
+                binRepository.delete(binOptional.get());
+            } catch(Exception e){
+                throw new BinDeletionException();
+            }
             return "The bin has been deleted";
         }
-        return "The bin provided could not be found";
+        throw new InvalidBinException();
     }
 
     @Override
