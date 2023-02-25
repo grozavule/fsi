@@ -1,10 +1,8 @@
 package dev.ericdrake.controllers;
 
-import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.dtos.BinLocationDto;
 import dev.ericdrake.entities.BinLocation;
 import dev.ericdrake.services.BinLocationService;
-import dev.ericdrake.services.BinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

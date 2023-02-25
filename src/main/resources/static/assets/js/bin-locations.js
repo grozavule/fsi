@@ -8,7 +8,19 @@ let binLocationModal = null;
 
 /*** FUNCTION DECLARATIONS ***/
 const addBinLocation = e => {
+    let binLocation = createBinLocationObjFromBinLocationModal();
 
+    axios.post(`/api/bin_locations/`, binLocation)
+        .then(res => {
+            refreshBinLocations();
+        })
+        .catch(error => {
+            displayAlert('danger',
+                "The server sent back an cryptic error message. Make the joker who built this site fix it.");
+        })
+        .finally(() => {
+            binLocationModal.hide();
+        });
 }
 
 const captureAddBinLocationButtonClick = e => {
@@ -50,6 +62,14 @@ const captureDeleteBinLocationButtonClick = e => {
             });
     });
     confirmationModal.show();
+}
+
+const createBinLocationObjFromBinLocationModal = () => {
+    const binLocationName = document.querySelector("#bin-location-name").value;
+    const binLocation = {
+        "locationName": binLocationName
+    };
+    return binLocation;
 }
 
 const displayBinLocationModal = (binLocation = {}) => {

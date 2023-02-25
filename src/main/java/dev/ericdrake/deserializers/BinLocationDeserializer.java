@@ -26,7 +26,7 @@ public class BinLocationDeserializer extends StdDeserializer<BinLocation> {
         JsonNode node = codec.readTree(jsonParser);
 
         Integer binLocationId = node.get("binLocationId").asInt();
-        String binLocationName = node.get("binLocationName").asText();
+        String binLocationName = node.get("locationName").asText();
 
         Optional<BinLocation> binLocationOptional = binLocationRepository.findById(binLocationId);
         if(binLocationOptional.isPresent()){

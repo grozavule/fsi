@@ -1,8 +1,6 @@
 package dev.ericdrake.services;
 
-import dev.ericdrake.dtos.BinDto;
 import dev.ericdrake.dtos.BinLocationDto;
-import dev.ericdrake.entities.Bin;
 import dev.ericdrake.entities.BinLocation;
 import dev.ericdrake.repositories.BinLocationRepository;
 import jakarta.transaction.Transactional;
@@ -21,8 +19,8 @@ public class BinLocationServiceImpl implements BinLocationService {
     @Transactional
     public String addBinLocation(BinLocationDto binLocationDto){
         try {
-            BinLocation bin = new BinLocation(binLocationDto);
-            binLocationRepository.saveAndFlush(bin);
+            BinLocation binLocation = new BinLocation(binLocationDto);
+            binLocationRepository.saveAndFlush(binLocation);
 
             return "The new bin location was successfully added.";
         } catch(Exception e){
