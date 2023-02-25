@@ -41,9 +41,6 @@ const captureDeleteBinButtonClick = e => {
     const binId = button.getAttribute("data-bin-id");
     const bin = findBin(binId);
 
-    console.log(`Bin ID: ${binId}`);
-    console.log(`Bin: ${Object.keys(bin)}`);
-
     const modalHtml = generateConfirmationModal(`Confirm Delete: ${bin.binLabel}`,
         `By deleting this bin, all its items will need to be assigned to other bins. Do you want to continue?`);
 

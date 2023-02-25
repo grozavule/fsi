@@ -1,0 +1,23 @@
+<table class="table table-bordered table-striped data-table">
+    <thead>
+    <tr>
+        <th>Bin Location Name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each this}}
+        <tr data-bin-id="{{binLocationId}}">
+            <td>{{binLocationName}}</td>
+            <td>
+                <button class="table-btn btn-edit-bin-location" data-action="edit" data-bin-location-id="{{binLocationId}}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="table-btn btn-delete-bin-location" data-action="delete" data-bin-location-id="{{binLocationId}}">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
