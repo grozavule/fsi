@@ -29,10 +29,10 @@ const captureAddBinLocationButtonClick = e => {
 
 const captureEditBinLocationButtonClick = e => {
     const button = e.currentTarget;
-    const binId = button.getAttribute("data-bin-id");
-    const bin = findBin(binId);
+    const binLocationId = button.getAttribute("data-bin-location-id");
+    const binLocation = findBinLocation(binLocationId);
 
-    displayBinModal(bin);
+    displayBinLocationModal(binLocation);
 }
 
 const captureDeleteBinLocationButtonClick = e => {
@@ -107,7 +107,24 @@ const displayBinLocations = () => {
 }
 
 const editBinLocation = e => {
+    let binLocationId = document.querySelector("#bin-location-id").value;
+    let binLocation = createBinLocationObjFromBinLocationModal();
+    binLocation["binLocationId"] = binLocationId;
 
+    axios.put(`/api/bin_locations/${binLocationId}`, binLocation)
+        .then(() => {
+            refreshBinLocations();
+            displayAlert('success', `${binLocation.locationName} was successfully updated`);
+        })
+        .catch(error => displayAlert('danger', error.message))
+        .finally(() => {
+            binLocationModal.hide();
+        });
+}
+
+const findBinLocation = binLocationId => {
+    binLocationId = parseInt(binLocationId);
+    return binLocations.find(location => location.binLocationId == binLocationId);
 }
 
 const refreshBinLocations = () => {
