@@ -1,0 +1,38 @@
+<div class="modal fade" id="modal-bin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="modal-bin" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                {{#if binLabel}}
+                    <h5 class="modal-title">Edit Bin</h5>
+                {{else}}
+                    <h5 class="modal-title">Add Bin</h5>
+                {{/if}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-bin">
+                    <div class="mb-3">
+                        <label for="bin-label">Bin Label</label>
+                        {{#if binLabel}}
+                            <input type="text" id="bin-label" class="form-control" value="{{binLabel}}" />
+                        {{else}}
+                            <input type="text" id="bin-label" class="form-control" />
+                        {{/if}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="bin-location">Bin Location</label>
+                        <select id="bin-location" class="form-select"></select>
+                    </div>
+                    {{#if binId}}
+                        <input type="hidden" id="itemId" value="{{binId}}" />
+                    {{/if}}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" id="btn-save-bin">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

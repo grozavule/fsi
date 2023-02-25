@@ -4,14 +4,12 @@ const itemModalTemplate = Handlebars.templates['item-modal.hbs'];
 const itemsTableTemplate = Handlebars.templates["items-table.hbs"];
 
 /** VARIABLE DECLARATION **/
-let binLocations = [];
 let inventoryItems = [];
 let itemModal = null;
 const addItemButton = document.querySelector("#btn-add-item");
 
 /** FUNCTION DECLARATIONS **/
 const addItem = e => {
-    e.preventDefault();
     const binId = document.querySelector("#bin-location").value;
     let item = createItemObjFromItemModal();
 
@@ -98,7 +96,7 @@ function displayItemModal(item = {}) {
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
-    populateBinsDropDown();
+    populateBinsDropdown();
 
     const saveItemButton = document.querySelector("#btn-save-item");
     if(isModalInEditMode){
@@ -149,7 +147,7 @@ function findItem(itemId) {
     return inventoryItems.find(item => item.itemId === itemId);
 }
 
-const populateBinsDropDown = () => {
+const populateBinsDropdown = () => {
     if(bins.length <= 0 ){
         refreshBins();
     }
@@ -168,18 +166,6 @@ const refreshItemsTable = () => {
         inventoryItems = items
         displayItems();
     });
-}
-
-const retrieveBinLocations = () => {
-    let promise = new Promise((resolve, reject) => {
-        axios.get("/api/bin_locations/")
-            .then(res => {
-                binLocations = res.data;
-                resolve(res.data);
-            })
-            .catch(error => reject(error.message));
-    });
-    return promise;
 }
 
 const retrieveItems = () => {

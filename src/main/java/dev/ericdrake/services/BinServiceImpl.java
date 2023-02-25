@@ -30,10 +30,13 @@ public class BinServiceImpl implements BinService {
             if(binLocationOptional.isPresent()){
                 BinLocation binLocation = binLocationOptional.get();
                 bin.setBinLocation(binLocation);
+                binLocation.addBin(bin);
+
+                binRepository.saveAndFlush(bin);
+                binLocationRepository.saveAndFlush(binLocation);
             } else {
                 return "The bin location provided for this bin could not be found";
             }
-            binRepository.saveAndFlush(bin);
 
             return "The new bin was successfully added.";
         } catch(Exception e){

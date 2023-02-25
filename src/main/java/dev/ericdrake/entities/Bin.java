@@ -32,6 +32,7 @@ public class Bin {
     public Bin(){}
 
     public Bin(BinDto binDto){
+        System.out.println("Attempting to create Bin object from BinDto");
         this.binId = binDto.getBinId();
         this.binLabel = binDto.getBinLabel().toUpperCase();
         this.binLocation = binDto.getBinLocation();

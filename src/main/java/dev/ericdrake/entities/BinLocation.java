@@ -50,6 +50,12 @@ public class BinLocation {
         return bins;
     }
 
+    public void addBin(Bin bin){
+        List<Bin> bins = this.getBins();
+        bins.add(bin);
+        bin.setBinLocation(this);
+    }
+
     public void setBin(List<Bin> bins) {
         this.bins = bins;
     }

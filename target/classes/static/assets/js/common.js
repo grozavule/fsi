@@ -5,6 +5,7 @@ const confirmationModalTemplate = Handlebars.templates["confirmation-modal.hbs"]
 
 /*** VARIABLE DECLARATIONS ***/
 let bins = [];
+let binLocations = [];
 const mainContent = document.querySelector("#main-content");
 // const menuItems = document.querySelectorAll(".menu-item");
 
@@ -43,6 +44,18 @@ const retrieveBins = () => {
         axios.get("/api/bins/")
             .then(res => {
                 bins = res.data;
+                resolve(res.data);
+            })
+            .catch(error => reject(error.message));
+    });
+    return promise;
+}
+
+const retrieveBinLocations = () => {
+    let promise = new Promise((resolve, reject) => {
+        axios.get("/api/bin_locations/")
+            .then(res => {
+                binLocations = res.data;
                 resolve(res.data);
             })
             .catch(error => reject(error.message));

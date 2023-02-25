@@ -16,13 +16,6 @@ public class BinDto implements Serializable {
 
     public BinDto(){}
 
-    public BinDto(Integer binId, String binLabel, List<Item> items, BinLocation binLocation){
-        this.binId = binId;
-        this.binLabel = binLabel.toUpperCase();
-        this.items = items;
-        this.binLocation = binLocation;
-    }
-
     public BinDto(Bin bin){
         this.binId = bin.getBinId();
         this.binLabel = bin.getBinLabel().toUpperCase();
