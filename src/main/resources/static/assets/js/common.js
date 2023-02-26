@@ -7,7 +7,6 @@ const confirmationModalTemplate = Handlebars.templates["confirmation-modal.hbs"]
 let bins = [];
 let binLocations = [];
 const mainContent = document.querySelector("#main-content");
-// const menuItems = document.querySelectorAll(".menu-item");
 
 /*** FUNCTION DECLARATIONS ***/
 const displayAlert = (type, message) => {
@@ -28,16 +27,6 @@ const generateConfirmationModal = (title, message) => {
 
     return confirmationModalTemplate(modalValues);
 }
-
-// const openSubmenu = e => {
-//     const submenu = e.target.parentNode.querySelector(".submenu");
-//     const displayValue = submenu.style.display;
-//     if(displayValue === "block"){
-//         submenu.style.display = "none";
-//     } else {
-//         submenu.style.display = "block";
-//     }
-// }
 
 const retrieveBins = () => {
     let promise = new Promise((resolve, reject) => {
@@ -62,9 +51,3 @@ const retrieveBinLocations = () => {
     });
     return promise;
 }
-
-/*** EVENT HANDLERS ***/
-
-// menuItems.forEach(menuItem => {
-//    menuItem.addEventListener("click", openSubmenu);
-// });

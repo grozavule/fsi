@@ -1,3 +1,7 @@
 {{#each this}}
-    <option value="{{binId}}">{{binLabel}} - {{binLocationName}}</option>
+    {{#if selected}}
+        <option value="{{binId}}" selected>{{binLabel}} - {{binLocationName}}</option>
+    {{else}}
+        <option value="{{binId}}">{{binLabel}} - {{binLocationName}}</option>
+    {{/if}}
 {{/each}}

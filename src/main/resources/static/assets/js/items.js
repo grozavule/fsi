@@ -96,6 +96,7 @@ function displayItemModal(item = {}) {
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
+    markSelectedBin(item);
     populateBinsDropdown();
 
     const itemForm = document.querySelector("#form-item");
@@ -116,6 +117,9 @@ function displayItemModal(item = {}) {
 const displayItems = () => {
     const html = itemsTableTemplate(inventoryItems);
     mainContent.innerHTML = html;
+
+    let itemRows = document.querySelectorAll(".data-table tbody tr");
+    itemRows.forEach(row => row.addEventListener("click", captureEditButtonClick));
 
     let editItemButtons = document.querySelectorAll(".btn-edit-item");
     editItemButtons.forEach(button => button.addEventListener("click", captureEditButtonClick));
@@ -150,6 +154,23 @@ function findItem(itemId) {
     }
     itemId = parseInt(itemId);
     return inventoryItems.find(item => item.itemId === itemId);
+}
+
+const markSelectedBin = item => {
+    let isEmptyItem = Object.keys(item).length <= 0;
+    if(isEmptyItem) return;
+
+    if(bins.length <= 0){
+        refreshBins();
+    }
+
+    bins.forEach(bin => {
+        if(bin.binId === item.binId){
+            bin["selected"] = true;
+        } else if(bin["selected"]){
+            delete bin["selected"];
+        }
+    });
 }
 
 const populateBinsDropdown = () => {
