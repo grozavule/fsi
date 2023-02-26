@@ -32,6 +32,7 @@ const addItem = e => {
 }
 
 const captureDeleteButtonClick = e => {
+    e.stopPropagation();
     const button = e.currentTarget;
     const itemId = button.getAttribute("data-id");
     const item = findItem(itemId);

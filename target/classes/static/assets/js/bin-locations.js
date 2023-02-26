@@ -28,15 +28,8 @@ const captureAddBinLocationButtonClick = e => {
     displayBinLocationModal();
 }
 
-const captureEditBinLocationButtonClick = e => {
-    const button = e.currentTarget;
-    const binLocationId = button.getAttribute("data-bin-location-id");
-    const binLocation = findBinLocation(binLocationId);
-
-    displayBinLocationModal(binLocation);
-}
-
 const captureDeleteBinLocationButtonClick = e => {
+    e.stopPropagation();
     const button = e.currentTarget;
     const binLocationId = button.getAttribute("data-bin-location-id");
     const binLocation = findBinLocation(binLocationId);
@@ -66,6 +59,14 @@ const captureDeleteBinLocationButtonClick = e => {
             });
     });
     confirmationModal.show();
+}
+
+const captureEditBinLocationButtonClick = e => {
+    const button = e.currentTarget;
+    const binLocationId = button.getAttribute("data-bin-location-id");
+    const binLocation = findBinLocation(binLocationId);
+
+    displayBinLocationModal(binLocation);
 }
 
 const createBinLocationObjFromBinLocationModal = () => {
@@ -108,6 +109,9 @@ const displayBinLocationModal = (binLocation = {}) => {
 const displayBinLocations = () => {
     const html = binLocationsTableTemplate(binLocations);
     mainContent.innerHTML = html;
+
+    let locationRows = document.querySelectorAll(".data-table tbody tr");
+    locationRows.forEach(row => row.addEventListener("click", captureEditBinLocationButtonClick));
 
     let editBinLocationButtons = document.querySelectorAll(".btn-edit-bin-location");
     editBinLocationButtons.forEach(button => button.addEventListener("click", captureEditBinLocationButtonClick));

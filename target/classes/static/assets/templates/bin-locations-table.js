@@ -8,8 +8,8 @@ templates['bin-locations-table.hbs'] = template({"1":function(container,depth0,h
         return undefined
     };
 
-  return "        <tr data-bin-id=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"binLocationId") || (depth0 != null ? lookupProperty(depth0,"binLocationId") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"binLocationId","hash":{},"data":data,"loc":{"start":{"line":10,"column":25},"end":{"line":10,"column":42}}}) : helper)))
+  return "        <tr data-bin-location-id=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"binLocationId") || (depth0 != null ? lookupProperty(depth0,"binLocationId") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"binLocationId","hash":{},"data":data,"loc":{"start":{"line":10,"column":34},"end":{"line":10,"column":51}}}) : helper)))
     + "\">\n            <td>"
     + alias4(((helper = (helper = lookupProperty(helpers,"binLocationName") || (depth0 != null ? lookupProperty(depth0,"binLocationName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"binLocationName","hash":{},"data":data,"loc":{"start":{"line":11,"column":16},"end":{"line":11,"column":35}}}) : helper)))
     + "</td>\n            <td>\n                <button class=\"table-btn btn-edit-bin-location\" data-action=\"edit\" data-bin-location-id=\""

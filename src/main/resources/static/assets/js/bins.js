@@ -29,15 +29,8 @@ const captureAddBinButtonClick = e => {
     displayBinModal();
 }
 
-const captureEditBinButtonClick = e => {
-    const button = e.currentTarget;
-    const binId = button.getAttribute("data-bin-id");
-    const bin = findBin(binId);
-
-    displayBinModal(bin);
-}
-
 const captureDeleteBinButtonClick = e => {
+    e.stopPropagation();
     const button = e.currentTarget;
     const binId = button.getAttribute("data-bin-id");
     const bin = findBin(binId);
@@ -66,6 +59,14 @@ const captureDeleteBinButtonClick = e => {
     confirmationModal.show();
 }
 
+const captureEditBinButtonClick = e => {
+    const button = e.currentTarget;
+    const binId = button.getAttribute("data-bin-id");
+    const bin = findBin(binId);
+
+    displayBinModal(bin);
+}
+
 const createBinObjFromBinModal = () => {
     const binLabel = document.querySelector("#bin-label").value;
     const binLocationId = document.querySelector("#bin-location").value;
@@ -92,6 +93,7 @@ const displayBinModal = (bin = {}) => {
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
+    markSelectedBinLocation(bin);
     populateBinLocationsDropdown();
 
     const binForm = document.querySelector("#form-bin");
@@ -111,6 +113,9 @@ const displayBinModal = (bin = {}) => {
 const displayBins = () => {
     const html = binsTableTemplate(bins);
     mainContent.innerHTML = html;
+
+    let binRows = document.querySelectorAll(".data-table tbody tr");
+    binRows.forEach(row => row.addEventListener("click", captureEditBinButtonClick));
 
     let editBinButtons = document.querySelectorAll(".btn-edit-bin");
     editBinButtons.forEach(button => button.addEventListener("click", captureEditBinButtonClick));
@@ -142,6 +147,22 @@ const editBin = e => {
 const findBin = binId => {
     binId = parseInt(binId);
     return bins.find(bin => bin.binId == binId);
+}
+
+const markSelectedBinLocation = bin => {
+    const isEmptyBin = Object.keys(bin).length <= 0;
+    if(isEmptyBin) return;
+
+    if(binLocations.length <= 0){
+        refreshBinLocations();
+    }
+    binLocations.forEach(location => {
+        if(location.binLocationId === bin.binLocationId){
+            location["selected"] = true;
+        } else if(location["selected"]){
+            delete location["selected"];
+        }
+    });
 }
 
 const populateBinLocationsDropdown = () => {
