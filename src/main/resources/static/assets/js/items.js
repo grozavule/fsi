@@ -10,6 +10,8 @@ const addItemButton = document.querySelector("#btn-add-item");
 
 /** FUNCTION DECLARATIONS **/
 const addItem = e => {
+    e.preventDefault();
+
     const binId = document.querySelector("#bin-location").value;
     let item = createItemObjFromItemModal();
 
@@ -63,11 +65,6 @@ const captureEditButtonClick = e => {
     const item = findItem(itemId);
 
     displayItemModal(item);
-
-    // axios.get(`/api/items/${itemId}`)
-    //     .then(res => {
-    //         console.log(res.data);
-    //     });
 }
 
 const createItemObjFromItemModal = () => {
@@ -88,20 +85,26 @@ function displayItemModal(item = {}) {
     const isModalInEditMode = Object.keys(item).length > 0;
 
     if(itemModal !== null){
+        const modalContainer = document.querySelector("#modal-container");
         itemModal.dispose();
+        modalContainer.remove();
     }
 
     const html = itemModalTemplate(item);
     const modalContainer = document.createElement("div");
+    modalContainer.setAttribute("id", "modal-container");
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
     populateBinsDropdown();
 
+    const itemForm = document.querySelector("#form-item");
     const saveItemButton = document.querySelector("#btn-save-item");
     if(isModalInEditMode){
+        itemForm.addEventListener("submit", editItem);
         saveItemButton.addEventListener("click", editItem);
     } else {
+        itemForm.addEventListener("submit", addItem);
         saveItemButton.addEventListener("click", addItem);
     }
 
@@ -121,7 +124,9 @@ const displayItems = () => {
     deleteItemButtons.forEach(button => button.addEventListener("click", captureDeleteButtonClick));
 }
 
-function editItem() {
+function editItem(e) {
+    e.preventDefault();
+
     let itemId = document.querySelector("#itemId").value;
     let binId = document.querySelector("#bin-location").value;
     let item = createItemObjFromItemModal();

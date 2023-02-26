@@ -9,6 +9,7 @@ let binModal = null;
 
 /*** FUNCTION DECLARATIONS ***/
 const addBin = e => {
+    e.preventDefault();
     const binLocationId = document.querySelector("#bin-location").value;
     let bin = createBinObjFromBinModal();
 
@@ -80,20 +81,26 @@ const displayBinModal = (bin = {}) => {
     const isModalInEditMode = Object.keys(bin).length > 0;
 
     if(binModal !== null){
+        const modalContainer = document.querySelector("#modal-container");
         binModal.dispose();
+        modalContainer.remove();
     }
 
     const html = binModalTemplate(bin);
     const modalContainer = document.createElement("div");
+    modalContainer.setAttribute("id", "modal-container");
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
     populateBinLocationsDropdown();
 
+    const binForm = document.querySelector("#form-bin");
     const saveBinButton = document.querySelector("#btn-save-bin");
     if(isModalInEditMode){
+        binForm.addEventListener("submit", editBin);
         saveBinButton.addEventListener("click", editBin);
     } else {
+        binForm.addEventListener("submit", addBin);
         saveBinButton.addEventListener("click", addBin);
     }
 
@@ -112,7 +119,9 @@ const displayBins = () => {
     deleteBinButtons.forEach(button => button.addEventListener("click", captureDeleteBinButtonClick));
 }
 
-const editBin = (e) => {
+const editBin = e => {
+    e.preventDefault();
+
     let binId = document.querySelector("#bin-id").value;
     let binLocationId = document.querySelector("#bin-location").value;
     let bin = createBinObjFromBinModal();

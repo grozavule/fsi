@@ -80,11 +80,14 @@ const displayBinLocationModal = (binLocation = {}) => {
     const isModalInEditMode = Object.keys(binLocation).length > 0;
 
     if(binLocationModal !== null){
+        const modalContainer = document.querySelector("#modal-container");
         binLocationModal.dispose();
+        modalContainer.remove();
     }
 
     const html = binLocationModalTemplate(binLocation);
     const modalContainer = document.createElement("div");
+    modalContainer.setAttribute("id", "modal-container");
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
