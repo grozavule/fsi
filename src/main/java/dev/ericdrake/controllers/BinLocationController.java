@@ -4,6 +4,7 @@ import dev.ericdrake.dtos.BinLocationDto;
 import dev.ericdrake.entities.BinLocation;
 import dev.ericdrake.services.BinLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,8 +48,7 @@ public class BinLocationController {
     }
 
     @DeleteMapping("/{binLocationId}")
-    public String deleteBinLocation(@PathVariable Integer binLocationId){
+    public void deleteBinLocation(@PathVariable Integer binLocationId){
         binLocationService.deleteBinLocation(binLocationId);
-        return "The bin location has been successfully deleted";
     }
 }

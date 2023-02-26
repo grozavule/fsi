@@ -8,6 +8,7 @@ let binLocationModal = null;
 
 /*** FUNCTION DECLARATIONS ***/
 const addBinLocation = e => {
+    e.preventDefault();
     let binLocation = createBinLocationObjFromBinLocationModal();
 
     axios.post(`/api/bin_locations/`, binLocation)
@@ -37,11 +38,11 @@ const captureEditBinLocationButtonClick = e => {
 
 const captureDeleteBinLocationButtonClick = e => {
     const button = e.currentTarget;
-    const binId = button.getAttribute("data-bin-id");
-    const bin = findBin(binId);
+    const binLocationId = button.getAttribute("data-bin-location-id");
+    const binLocation = findBinLocation(binLocationId);
 
-    const modalHtml = generateConfirmationModal(`Confirm Delete: ${bin.binLabel}`,
-        `By deleting this bin, all its items will need to be assigned to other bins. Do you want to continue?`);
+    const modalHtml = generateConfirmationModal(`Confirm Delete: ${binLocation.binLocationName}`,
+        `By deleting this location, all its bins will need to be assigned to other locations. Do you want to continue?`);
 
     const modalContainer = document.createElement("div");
     modalContainer.innerHTML = modalHtml;
@@ -50,13 +51,16 @@ const captureDeleteBinLocationButtonClick = e => {
 
     const confirmationButton = modalContainer.querySelector("#btn-modal-confirm");
     confirmationButton.addEventListener("click", (e) => {
-        axios.delete(`/api/bins/${binId}`)
-            .then(res => {
-                refreshItemsTable();
-                displayAlert(`success`, `${bin.binLabel} was successfully deleted`);
+        axios.delete(`/api/bin_locations/${binLocationId}`, {responseType: 'text'})
+            .then(() => {
+                refreshBinLocations();
+                displayAlert(`success`, `${binLocation.binLocationName} was successfully deleted`);
             })
-            .catch(error => displayAlert(`danger`,
-                "Oops! Something went wrong. Please verify there are no items still assigned to this bin."))
+            .catch(error => {
+                console.log(error);
+                displayAlert(`danger`,
+                    "Oops! Something went wrong. Please verify there are no bins still assigned to this location.")
+            })
             .finally(() => {
                 confirmationModal.hide();
             });
@@ -84,11 +88,14 @@ const displayBinLocationModal = (binLocation = {}) => {
     modalContainer.innerHTML = html;
     document.body.appendChild(modalContainer);
 
+    const binLocationForm = document.querySelector("#form-bin-location");
     const saveBinLocationButton = document.querySelector("#btn-save-bin-location");
     if(isModalInEditMode){
         saveBinLocationButton.addEventListener("click", editBinLocation);
+        binLocationForm.addEventListener("submit", editBinLocation)
     } else {
         saveBinLocationButton.addEventListener("click", addBinLocation);
+        binLocationForm.addEventListener("submit", addBinLocation);
     }
 
     binLocationModal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
@@ -107,6 +114,7 @@ const displayBinLocations = () => {
 }
 
 const editBinLocation = e => {
+    e.preventDefault();
     let binLocationId = document.querySelector("#bin-location-id").value;
     let binLocation = createBinLocationObjFromBinLocationModal();
     binLocation["binLocationId"] = binLocationId;
